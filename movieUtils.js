@@ -1,3 +1,5 @@
+const { readCSVFile } = require("./lib/files");
+
 function parseCSVRow(row) {
 	const result = [];
 	let current = "";
@@ -64,4 +66,21 @@ function calculateSimilarity(word1, word2) {
 	return intersection.length / union.size;
 }
 
-module.exports = { findMovieBySimilarTitle };
+function getAllMovies() {
+	const csvMovies = readCSVFile("data/movies.csv");
+	const lines = csvMovies.split("\n");
+	const headers = parseCSVRow(lines[0]);
+	const movies = [];
+
+	for (let i = 1; i < lines.length; i++) {
+		const values = parseCSVRow(lines[i]);
+		const movie = {};
+		headers.forEach((header, index) => {
+			movie[header] = values[index];
+		});
+		movies.push(movie);
+	}
+	return movies;
+}
+
+module.exports = { findMovieBySimilarTitle, getAllMovies };
