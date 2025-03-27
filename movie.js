@@ -1,27 +1,22 @@
-const { parseCSVRow } = require("./movieUtils");
+const { findMovieBySimilarTitle } = require("./movieUtils");
+const { readCSVFile } = require("./lib/files");
 
-const fs = require("fs");
-const path = require("path");
-
+// Recibimos el input del usuario
 const inputTitle = process.argv[2];
+if (inputTitle === "") {
+	console.log("Por favor ingrese el título de una película.");
+	process.exit();
+}
+
 console.log(inputTitle);
 
-const csvFilePath = path.join(__dirname, "data", "movies.csv");
-const csvData = fs.readFileSync(csvFilePath, "utf8");
+// Modularizando la funcion de lectura de archivos.
+const csvMovies = readCSVFile("data/movies.csv");
 
-const lines = csvData.split("\n");
-const headers = parseCSVRow(lines[0]);
-
-let movie = {};
-
-for (let i = 1; i < lines.length; i++) {
-	const values = parseCSVRow(lines[i]);
-	if (values[1] === inputTitle) {
-		headers.forEach((header, index) => {
-			movie[header] = values[index];
-		});
-		break;
-	}
+const movie = findMovieBySimilarTitle(inputTitle, csvMovies);
+if (movie === null) {
+	console.log("No se encontró la película.");
+	process.exit();
 }
 
 console.log(movie);
