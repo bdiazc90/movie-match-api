@@ -1,5 +1,5 @@
-const { findMovieBySimilarTitle } = require("./movieUtils");
-const { readCSVFile } = require("./lib/files");
+import { findMovieBySimilarTitle } from "./movieUtils.js";
+import { readCSVFile } from "./lib/files.js";
 
 // Recibimos el input del usuario
 const inputTitle = process.argv[2];

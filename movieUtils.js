@@ -1,4 +1,4 @@
-const { readCSVFile } = require("./lib/files");
+import { readCSVFile } from "./lib/files.js";
 
 function parseCSVRow(row) {
 	const result = [];
@@ -83,4 +83,4 @@ function getAllMovies() {
 	return movies;
 }
 
-module.exports = { findMovieBySimilarTitle, getAllMovies };
+export { findMovieBySimilarTitle, getAllMovies };
